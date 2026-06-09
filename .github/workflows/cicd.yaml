@@ -1,0 +1,27 @@
+name: CI/CD workflow for Maven Build and Sonar Code scan1
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Set up JDK 21
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '21'
+        cache: 'maven'
+    - name: Build with Maven
+      run: mvn clean install -f pom.xml
+    - name: SonarQube Scan with Quality Gate
+      run: |
+        mvn -f pom.xml sonar:sonar \
+          -Dsonar.projectKey=emsProject \
+          -Dsonar.projectName=emsProject \
+          -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
+          -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
