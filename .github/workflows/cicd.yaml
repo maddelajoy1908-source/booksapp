@@ -21,7 +21,7 @@ jobs:
     - name: SonarQube Scan with Quality Gate
       run: |
         mvn -f pom.xml sonar:sonar \
-          -Dsonar.projectKey=emsProject \
-          -Dsonar.projectName=emsProject \
+          -Dsonar.projectKey=booksapp \
+          -Dsonar.projectName=booksapp \
           -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
           -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
